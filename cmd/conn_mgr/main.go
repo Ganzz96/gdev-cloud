@@ -9,7 +9,9 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/ganzz96/gdev-cloud/internal/common/configurer"
+	"github.com/ganzz96/gdev-cloud/internal/conn_mgr"
 	"github.com/ganzz96/gdev-cloud/internal/conn_mgr/config"
+	"github.com/ganzz96/gdev-cloud/internal/conn_mgr/transport/websocket"
 )
 
 func main() {
@@ -52,6 +54,11 @@ func initAndRun(cfgPath string) error {
 	if err := configurer.Load(cfgPath, &cfg); err != nil {
 		return errors.WithMessage(err, "failed to load config")
 	}
+
+	connectionManager := conn_mgr.New(nil)
+
+	transportLayer := websocket.New(connectionManager)
+	transportLayer.RegisterEndpoints("/connect")
 
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 	return http.ListenAndServe(addr, nil)

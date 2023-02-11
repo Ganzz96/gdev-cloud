@@ -3,6 +3,7 @@ module github.com/ganzz96/gdev-cloud
 go 1.19
 
 require (
+	github.com/gorilla/websocket v1.5.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.6.1
 	go.uber.org/zap v1.24.0

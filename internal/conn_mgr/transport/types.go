@@ -6,3 +6,7 @@ const (
 )
 
 type DelieveryOption int
+
+type ConnectionRequest struct {
+	Sender chan []byte
+}
