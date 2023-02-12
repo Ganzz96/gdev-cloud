@@ -1,0 +1,6 @@
+output:
+  ./internal/conn_mgr/api/generated/server.gen.go
+package: generated
+generate:
+  models: true
+  chi-server: true

@@ -10,6 +10,8 @@ import (
 
 	"github.com/ganzz96/gdev-cloud/internal/common/configurer"
 	"github.com/ganzz96/gdev-cloud/internal/conn_mgr"
+	"github.com/ganzz96/gdev-cloud/internal/conn_mgr/api"
+	"github.com/ganzz96/gdev-cloud/internal/conn_mgr/api/generated"
 	"github.com/ganzz96/gdev-cloud/internal/conn_mgr/config"
 	"github.com/ganzz96/gdev-cloud/internal/conn_mgr/transport/websocket"
 )
@@ -56,10 +58,12 @@ func initAndRun(cfgPath string) error {
 	}
 
 	connectionManager := conn_mgr.New(nil)
+	transport := websocket.New()
 
-	transportLayer := websocket.New(connectionManager)
-	transportLayer.RegisterEndpoints("/connect")
+	apiController := api.New(connectionManager, transport)
 
+	handler := generated.Handler(apiController)
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
-	return http.ListenAndServe(addr, nil)
+
+	return http.ListenAndServe(addr, handler)
 }

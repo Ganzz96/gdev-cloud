@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  title: Connection Management API
+  version: 0.1.0
+paths:
+  /api/v1/connect:
+    get:
+      summary: Establish web socket connection to the server
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/deliver:
+    post:
+      summary: Deliver a message to the given list of clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryRequest'
+        required: true
+      responses:
+        200:
+          description: The message has been delivered
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+components:
+  schemas:
+    DeliveryRequest:
+      required:
+      - message
+      - clients
+      - delivery_type
+      type: object
+      properties:
+        message:
+          type: string
+          description: Base64 formatted message
+        clients:
+          type: array
+          items:
+            type: string
+          description: The list of client identifiers in UUID format
+        delivery_type:
+          type: integer
+          description: Type of the delivery in terms of guarantees (0 - unreliable, 1 - reliable)
+    Error:
+      type: object
+      required: 
+      - message
+      properties:
+        message:
+          type: string

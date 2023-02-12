@@ -22,7 +22,8 @@ func (c *controller) Connect(req transport.ConnectionRequest) error {
 	return nil
 }
 
-func (c *controller) SendMessage(message interface{}, toClientIDs []string, guarantee transport.DelieveryOption) error {
+func (c *controller) Deliver(message string, toClientIDs []string, guarantee transport.DelieveryOption) error {
 	// need to be implemented
+
 	return nil
 }

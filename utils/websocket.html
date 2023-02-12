@@ -8,7 +8,7 @@
   </head>
   <body>
     <script>
-        let socket = new WebSocket("ws://127.0.0.1:8000/connect");
+        let socket = new WebSocket("ws://127.0.0.1:8000/api/v1/connect");
         console.log("Attempting Connection...");
 
         socket.onopen = () => {
